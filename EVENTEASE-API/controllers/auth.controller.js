@@ -1,0 +1,111 @@
+import User from "../models/User.js";
+import jwt from "jsonwebtoken";
+import { validationResult } from "express-validator";
+import "dotenv/config";
+import connectDB from "../config/db.js";
+
+const generateToken = (id) => {
+  return jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: "30d",
+  });
+};
+
+// @desc    Register a new user
+// @route   POST /api/auth/register
+// @access  Public
+
+export const registerUser = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { name, email, password, role } = req.body;
+
+  try {
+    await connectDB();
+    let user = await User.findOne({ email });
+
+    if (user) {
+      return res.status(400).json({ msg: "User already exists" });
+    }
+
+    user = new User({
+      name,
+      email,
+      password,
+      role,
+    });
+
+    await user.save();
+
+    res.status(201).json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+      token: generateToken(user._id),
+    });
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+};
+
+// @desc    Login a user
+// @route   POST /api/auth/login
+// @access  Public
+export const loginUser = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({ errors: errors.array() });
+  }
+
+  const { email, password } = req.body;
+
+  try {
+    await connectDB();
+    let user = await User.findOne({ email });
+
+    if (!user) {
+      return res.status(400).json({ msg: "Invalid credentials" });
+    }
+
+    const isMatch = await user.comparePassword(password);
+
+    if (!isMatch) {
+      return res.status(400).json({ msg: "Invalid credentials" });
+    }
+
+    // Create session
+    req.session.user = {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    };
+
+    // res.json({
+    //   _id: user._id,
+    //   name: user.name,
+    //   email: user.email,
+    //   role: user.role,
+    //   token: generateToken(user._id),
+    // });
+    res.redirect("/dashboard");
+  } catch (err) {
+    console.error(err.message);
+    res.status(500).send("Server error");
+  }
+};
+
+// export const logoutUser = async (req, res) => {
+//   const token = req.headers.authorization.split(" ")[1];
+//   jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
+//     if (err) {
+//       return res.status(401).json({ message: "Unauthorized" });
+//     }
+//     res.clearCookie("token");
+//   });
+//   res.json({ message: "User logged out successfully" });
+// };

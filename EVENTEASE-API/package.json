@@ -1,0 +1,36 @@
+{
+  "name": "eventease-api",
+  "version": "1.0.0",
+  "description": "the backend for eventease web app",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ABjnr/event-ease.git"
+  },
+  "author": "Abraham Adeniyi",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ABjnr/event-ease/issues"
+  },
+  "homepage": "https://github.com/ABjnr/event-ease#readme",
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
+    "dotenv": "^17.2.2",
+    "express": "^5.1.0",
+    "express-session": "^1.18.2",
+    "express-validator": "^7.2.1",
+    "jsonwebtoken": "^9.0.2",
+    "mongoose": "^8.19.0",
+    "pug": "^3.0.3"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.10"
+  }
+}
