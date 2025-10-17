@@ -1,5 +1,9 @@
 import mongoose from "mongoose";
 
+/**
+ * Mongoose schema for the Notification model.
+ * Defines the structure of a notification document in the database.
+ */
 const notificationSchema = new mongoose.Schema(
   {
     user: {
@@ -25,7 +29,9 @@ const notificationSchema = new mongoose.Schema(
       default: false,
     },
   },
-  { timestamps: true }
+  { 
+    timestamps: true 
+  }
 );
 
 const Notification = mongoose.model("Notification", notificationSchema);

@@ -5,6 +5,10 @@ import { validationResult } from "express-validator";
 // @desc    Get registrations for an event
 // @route   GET /api/events/:id/registrations
 // @access  Private/Organizer
+/**
+ * Retrieves all registrations for a specific event.
+ * Populates attendee details for each registration.
+ */
 export const getEventRegistrations = async (req, res) => {
     try {
       await connectDB();
@@ -19,6 +23,9 @@ export const getEventRegistrations = async (req, res) => {
   // @desc    Get a registration by ID
   // @route   GET /api/registrations/:id
   // @access  Private
+/**
+ * Retrieves a single registration by its ID.
+ */
 export const getRegistrationById = async (req, res) => {
     try {
       await connectDB();
@@ -33,6 +40,10 @@ export const getRegistrationById = async (req, res) => {
   // @desc    Create a new registration
   // @route   POST /api/registrations
   // @access  Private
+  /**
+   * Creates a new registration.
+   * Registration details are taken from the request body.
+   */
   export const createRegistration = async (req, res) => {
     try {
       await connectDB();
@@ -51,6 +62,10 @@ export const getRegistrationById = async (req, res) => {
   // @desc    Update a registration
   // @route   PUT /api/registrations/:id
   // @access  Private
+/**
+ * Updates a registration by its ID.
+ * The update details are taken from the request body.
+ */
 export const updateRegistration = async (req, res) => {
     try {
       await connectDB();
@@ -69,6 +84,9 @@ export const updateRegistration = async (req, res) => {
   // @desc    Delete a registration
   // @route   DELETE /api/registrations/:id
   // @access  Private
+/**
+ * Deletes a registration by its ID.
+ */
 export const deleteRegistration = async (req, res) => {
     try {
       await connectDB();

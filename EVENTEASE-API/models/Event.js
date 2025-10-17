@@ -1,5 +1,9 @@
 import mongoose from "mongoose";
 
+/**
+ * Mongoose schema for the Event model.
+ * Defines the structure of an event document in the database.
+ */
 const eventSchema = new mongoose.Schema(
   {
     title: {
@@ -37,7 +41,9 @@ const eventSchema = new mongoose.Schema(
       default: "active",
     },
   },
-  { timestamps: true }
+  { 
+    timestamps: true 
+  }
 );
 
 const Event = mongoose.model("Event", eventSchema);

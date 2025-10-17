@@ -2,6 +2,10 @@ import User from "../models/User.js";
 import connectDB from "../config/db.js";
 import bcrypt from "bcrypt";
 
+/**
+ * Initializes a default organizer user in the database.
+ * This is useful for seeding the database with an initial user.
+ */
 async function initializeUser() {
     try {
         await connectDB();
@@ -22,6 +26,9 @@ async function initializeUser() {
     }
 }
 
+/**
+ * Retrieves all users from the database.
+ */
 async function getUsers() {
     try {
         await connectDB();
@@ -34,6 +41,9 @@ async function getUsers() {
     }
 }
 
+/**
+ * Retrieves a single user by their ID.
+ */
 async function getUserById(id) {
     try {
         await connectDB();
@@ -46,6 +56,9 @@ async function getUserById(id) {
     }
 }
 
+/**
+ * Updates a user's details by their ID.
+ */
 async function updateUserById(id, updateFields) {
     try {
         await connectDB();
@@ -58,6 +71,9 @@ async function updateUserById(id, updateFields) {
     }
 }
 
+/**
+ * Deletes a user by their ID.
+ */
 async function deleteUserById(id) {
     try {
         await connectDB();

@@ -4,12 +4,20 @@ import { check } from "express-validator";
 
 const router = express.Router();
 
-// @desc    Register a new user
-// @route   POST /api/auth/register
-// @access  Public
+/**
+ * @route   GET /api/auth/register
+ * @desc    Renders the registration page.
+ * @access  Public
+ */
 router.get("/register", (req, res) => {
   res.render("register");
 });
+
+/**
+ * @route   POST /api/auth/register
+ * @desc    Handles the registration of a new user, with validation.
+ * @access  Public
+ */
 router.post(
   "/register",
   [
@@ -23,12 +31,20 @@ router.post(
   registerUser
 );
 
-// @desc    Login a user
-// @route   POST /api/auth/login
-// @access  Public
+/**
+ * @route   GET /api/auth/login
+ * @desc    Renders the login page.
+ * @access  Public
+ */
 router.get("/login", (req, res) => {
   res.render("login");
 });
+
+/**
+ * @route   POST /api/auth/login
+ * @desc    Handles user login, with validation.
+ * @access  Public
+ */
 router.post(
   "/login",
   [
@@ -38,9 +54,11 @@ router.post(
   loginUser
 );
 
-// @desc    Logout user and clear session
-// @route   GET /api/auth/logout
-// @access  Private
+/**
+ * @route   GET /api/auth/logout
+ * @desc    Logs the user out by destroying the session.
+ * @access  Private (accessible only to authenticated users)
+ */
 router.get("/logout", (req, res) => {
   req.session.destroy((err) => {
     if (err) {

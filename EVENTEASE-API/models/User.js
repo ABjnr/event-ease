@@ -1,6 +1,10 @@
 import mongoose from "mongoose";
 import bcrypt from "bcrypt";
 
+/**
+ * Mongoose schema for the User model.
+ * Defines the structure of a user document in the database.
+ */
 const userSchema = new mongoose.Schema(
   {
     name: {
@@ -28,10 +32,15 @@ const userSchema = new mongoose.Schema(
       default: "active",
     },
   },
-  { timestamps: true }
+  { 
+    timestamps: true 
+  }
 );
 
-// Hash password before saving
+/**
+ * Mongoose pre-save hook to hash the user's password before saving it to the database.
+ * The hashing is only performed if the password field has been modified.
+ */
 userSchema.pre("save", async function (next) {
   if (!this.isModified("password")) {
     return next();
@@ -41,7 +50,11 @@ userSchema.pre("save", async function (next) {
   next();
 });
 
-// Method to compare passwords
+/**
+ * Method on the user schema to compare an entered password with the hashed password in the database.
+ * @param {string} enteredPassword - The password to compare.
+ * @returns {Promise<boolean>} - True if the passwords match, false otherwise.
+ */
 userSchema.methods.comparePassword = async function (enteredPassword) {
   return await bcrypt.compare(enteredPassword, this.password);
 };

@@ -4,6 +4,9 @@ import { validationResult } from "express-validator";
 import "dotenv/config";
 import connectDB from "../config/db.js";
 
+/**
+ * Generates a JWT token for a user.
+ */
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
     expiresIn: "30d",
@@ -14,6 +17,11 @@ const generateToken = (id) => {
 // @route   POST /api/auth/register
 // @access  Public
 
+/**
+ * Handles new user registration.
+ * Validates request body, checks for existing users, creates a new user,
+ * saves them to the database, and returns user data with a JWT token.
+ */
 export const registerUser = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -55,6 +63,11 @@ export const registerUser = async (req, res) => {
 // @desc    Login a user
 // @route   POST /api/auth/login
 // @access  Public
+/**
+ * Handles user login.
+ * Validates request body, checks for user existence, verifies password,
+ * creates a session, and redirects to the dashboard upon successful login.
+ */
 export const loginUser = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {

@@ -4,6 +4,9 @@ import connectDB from "../config/db.js";
 // @desc    Get all notifications
 // @route   GET /api/notifications
 // @access  Private
+/**
+ * Retrieves all notifications.
+ */
 export const getNotifications = async (req, res) => {
     try {
       await connectDB();
@@ -18,6 +21,10 @@ export const getNotifications = async (req, res) => {
 // @desc    Create a new notification
 // @route   POST /api/notifications
 // @access  Private
+/**
+ * Creates a new notification.
+ * Notification details are taken from the request body.
+ */
 export const createNotification = async (req, res) => {
     try {
       const errors = validationResult(req);
@@ -37,6 +44,9 @@ export const createNotification = async (req, res) => {
   // @desc    Get a notification by ID
   // @route   GET /api/notifications/:id
   // @access  Private
+  /**
+   * Retrieves a single notification by its ID.
+   */
   export const getNotificationById = async (req, res) => {
     try {
       const errors = validationResult(req);
@@ -55,6 +65,10 @@ export const createNotification = async (req, res) => {
   // @desc    Update a notification
   // @route   PUT /api/notifications/:id
   // @access  Private
+  /**
+   * Updates a notification by its ID.
+   * The update details are taken from the request body.
+   */
   export const updateNotification = async (req, res) => {
     try {
       const errors = validationResult(req);
@@ -73,6 +87,9 @@ export const createNotification = async (req, res) => {
   // @desc    Delete a notification
   // @route   DELETE /api/notifications/:id
   // @access  Private
+  /**
+   * Deletes a notification by its ID.
+   */
   export const deleteNotification = async (req, res) => {
     try {
       const errors = validationResult(req);

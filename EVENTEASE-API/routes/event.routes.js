@@ -12,6 +12,15 @@ import { check } from "express-validator";
 
 const router = express.Router();
 
+/**
+ * @route   GET /api/events
+ * @desc    Get all events.
+ * @access  Public
+ * 
+ * @route   POST /api/events
+ * @desc    Create a new event, with validation.
+ * @access  Private (Organizer)
+ */
 router
   .route("/")
   .get(getEvents)
@@ -28,12 +37,30 @@ router
     createEvent
   );
 
+/**
+ * @route   GET /api/events/:id
+ * @desc    Get a single event by its ID.
+ * @access  Public
+ * 
+ * @route   PUT /api/events/:id
+ * @desc    Update an event.
+ * @access  Private (Organizer)
+ * 
+ * @route   DELETE /api/events/:id
+ * @desc    Delete an event.
+ * @access  Private (Organizer)
+ */
 router
   .route("/:id")
   .get(getEventById)
   .put(protect, organizer, updateEvent)
   .delete(protect, organizer, deleteEvent);
 
+/**
+ * @route   POST /api/events/:id/rsvp
+ * @desc    RSVP to an event.
+ * @access  Private (Authenticated User)
+ */
 router.route("/:id/rsvp").post(protect, rsvpEvent);
 
 export default router;

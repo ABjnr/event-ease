@@ -1,7 +1,12 @@
 import mongoose from "mongoose";
 
+/**
+ * Mongoose schema for the Registration model.
+ * Represents a user's registration for an event.
+ */
 const registrationSchema = new mongoose.Schema(
   {
+   
     event: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "Event",
@@ -18,7 +23,9 @@ const registrationSchema = new mongoose.Schema(
       default: "confirmed",
     },
   },
-  { timestamps: true }
+  { 
+    timestamps: true 
+  }
 );
 
 const Registration = mongoose.model("Registration", registrationSchema);

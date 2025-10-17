@@ -6,6 +6,11 @@ const router = express.Router();
 import db from "../controllers/user.controller.js";
 
 
+/**
+ * @route   GET /api/users/initialize
+ * @desc    Initializes a default user in the database.
+ * @access  Public
+ */
 router.get("/initialize", async (req, res) => {
     try{
         let user = await db.initializeUser();
@@ -18,6 +23,11 @@ router.get("/initialize", async (req, res) => {
     }
 });
 
+/**
+ * @route   GET /api/users
+ * @desc    Get all users.
+ * @access  Private (Admin)
+ */
 router.get("/", protect, admin, async (req, res) => {
     try{
         let users = await db.getUsers();
@@ -32,6 +42,11 @@ router.get("/", protect, admin, async (req, res) => {
     }
 });
 
+/**
+ * @route   GET /api/users/:id
+ * @desc    Get a single user by their ID.
+ * @access  Private (Admin)
+ */
 router.get("/:id", protect, admin, async (req, res) => {
     try{
         let user = await db.getUserById(req.params.id);
@@ -46,6 +61,11 @@ router.get("/:id", protect, admin, async (req, res) => {
     }
 });
 
+/**
+ * @route   PUT /api/users/:id
+ * @desc    Update a user's details.
+ * @access  Private (Admin)
+ */
 router.put("/:id", protect, admin, async (req, res) => {
   const updateFields = req.body;
   updateFields.updatedAt = Date.now();
@@ -62,6 +82,11 @@ router.put("/:id", protect, admin, async (req, res) => {
     }
 });
 
+/**
+ * @route   DELETE /api/users/:id
+ * @desc    Delete a user.
+ * @access  Private (Admin)
+ */
 router.delete("/:id", protect, admin, async (req, res) => {
     try{
         let user = await db.deleteUserById(req.params.id);
