@@ -1,6 +1,9 @@
 import Event from "../models/Event.js";
 import Registration from "../models/Registration.js";
+import Notification from "../models/Notification.js";
 import { validationResult } from "express-validator";
+import { sendEmail } from "../config/email.js";
+import User from "../models/User.js";
 
 // @desc    Create an event
 // @route   POST /api/events
@@ -179,6 +182,123 @@ export const rsvpEvent = async (req, res) => {
 
     await registration.save();
     res.status(201).json({ message: "RSVP successful" });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server Error");
+  }
+};
+
+/**
+ * @desc    Send a notification to all attendees of an event.
+ * @route   POST /api/events/:id/notify
+ * @access  Private/Organizer
+ * @param {object} req - Express request object, containing event ID in params and message in body.
+ * @param {object} res - Express response object.
+ */
+export const notifyAttendees = async (req, res) => {
+  const { message } = req.body;
+  const eventId = req.params.id;
+
+  try {
+    const event = await Event.findById(eventId);
+    if (!event) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
+    // Check if the logged-in user is the organizer of the event
+    if (event.organizer.toString() !== req.user._id.toString()) {
+      return res.status(401).json({ message: "User not authorized" });
+    }
+
+    const registrations = await Registration.find({ event: eventId }).populate(
+      "attendee",
+      "email name"
+    );
+
+    if (registrations.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "No attendees have registered for this event yet." });
+    }
+
+    const notifications = [];
+    const emailRecipients = [];
+
+    for (const reg of registrations) {
+      // Create an in-app notification
+      const notification = new Notification({
+        user: reg.attendee._id,
+        event: eventId,
+        message: `A message from the organizer of "${event.title}": ${message}`,
+        type: "in-app",
+      });
+      notifications.push(notification.save());
+
+      // Collect email addresses for email notification
+      emailRecipients.push(reg.attendee.email);
+    }
+
+    await Promise.all(notifications);
+
+    // Send email to all attendees
+    if (process.env.EMAIL_HOST) {
+      await sendEmail(
+        emailRecipients,
+        `Update for event: ${event.title}`,
+        message
+      );
+    }
+
+    res.json({ message: "Notifications sent successfully to all attendees." });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server Error");
+  }
+};
+
+/**
+ * @desc    Save an event to the user's bookmarked list.
+ * @route   POST /api/events/:id/save
+ * @access  Private
+ */
+export const saveEvent = async (req, res) => {
+  try {
+    const event = await Event.findById(req.params.id);
+    if (!event) {
+      return res.status(404).json({ message: "Event not found" });
+    }
+
+    const user = await User.findById(req.user._id);
+    if (user.savedEvents.includes(req.params.id)) {
+      return res.status(400).json({ message: "Event already saved" });
+    }
+
+    user.savedEvents.push(req.params.id);
+    await user.save();
+
+    res.json({ message: "Event saved successfully" });
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server Error");
+  }
+};
+
+/**
+ * @desc    Unsave an event from the user's bookmarked list.
+ * @route   DELETE /api/events/:id/save
+ * @access  Private
+ */
+export const unsaveEvent = async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+
+    // Remove the event from the savedEvents array
+    user.savedEvents = user.savedEvents.filter(
+      (eventId) => eventId.toString() !== req.params.id
+    );
+    await user.save();
+
+    res.json({ message: "Event unsaved successfully" });
   } catch (error) {
     console.error(error.message);
     res.status(500).send("Server Error");

@@ -1,0 +1,41 @@
+/* SavedEventsPage Styling */
+.saved-events-page {
+  max-width: 1200px;
+  margin: 2rem auto;
+}
+
+.saved-events-page h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+}
+
+.event-card {
+  background-color: var(--white-color);
+  box-shadow: 0 4px 12px var(--shadow-color);
+  padding: 1.5rem;
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: left;
+}
+
+.event-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px var(--shadow-color);
+}
+
+.event-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+}
+
+.event-card p {
+  color: var(--text-secondary-color);
+  margin-bottom: 1rem;
+}

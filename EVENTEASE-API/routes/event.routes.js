@@ -6,7 +6,11 @@ import {
   updateEvent,
   deleteEvent,
   rsvpEvent,
+  notifyAttendees,
+  saveEvent,
+  unsaveEvent,
 } from "../controllers/event.controller.js";
+import { getEventRegistrations } from "../controllers/registration.controller.js";
 import { protect, organizer } from "../middleware/auth.middleware.js";
 import { check } from "express-validator";
 
@@ -16,7 +20,7 @@ const router = express.Router();
  * @route   GET /api/events
  * @desc    Get all events.
  * @access  Public
- * 
+ *
  * @route   POST /api/events
  * @desc    Create a new event, with validation.
  * @access  Private (Organizer)
@@ -41,11 +45,11 @@ router
  * @route   GET /api/events/:id
  * @desc    Get a single event by its ID.
  * @access  Public
- * 
+ *
  * @route   PUT /api/events/:id
  * @desc    Update an event.
  * @access  Private (Organizer)
- * 
+ *
  * @route   DELETE /api/events/:id
  * @desc    Delete an event.
  * @access  Private (Organizer)
@@ -62,5 +66,23 @@ router
  * @access  Private (Authenticated User)
  */
 router.route("/:id/rsvp").post(protect, rsvpEvent);
+
+router
+  .route("/:id/notify")
+  .post(
+    protect,
+    organizer,
+    [check("message", "Message is required").not().isEmpty()],
+    notifyAttendees
+  );
+
+router
+  .route("/:id/registrations")
+  .get(protect, organizer, getEventRegistrations);
+
+router
+  .route("/:id/save")
+  .post(protect, saveEvent)
+  .delete(protect, unsaveEvent);
 
 export default router;

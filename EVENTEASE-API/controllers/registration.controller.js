@@ -12,7 +12,7 @@ import { validationResult } from "express-validator";
 export const getEventRegistrations = async (req, res) => {
     try {
       await connectDB();
-      const registrations = await Registration.find({}).populate("attendee", "name email");
+      const registrations = await Registration.find({ event: req.params.id }).populate("attendee", "name email");
       res.json(registrations);  
     } catch (error) {
       console.error(error.message);

@@ -13,6 +13,6 @@ html
     h2 All Events
     ul
       each event in events
-        li #{event.title} - Organized by #{event.organizer.name}
+        li #{event.title} - Organized by #{event.organizer ? event.organizer.name : 'an unknown organizer'}
 
     a(href="/api/auth/logout") Logout

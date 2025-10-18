@@ -1,0 +1,84 @@
+/* HomePage Styling */
+.homepage {
+  text-align: center;
+}
+
+.homepage h1 {
+  font-size: 2.5rem;
+  margin-bottom: 1rem;
+}
+
+.homepage p {
+  font-size: 1.25rem;
+  color: #666;
+  margin-bottom: 2rem;
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 1.5rem;
+  margin-top: 2rem;
+}
+
+.event-card {
+  background-color: var(--white-color);
+  box-shadow: 0 4px 12px var(--shadow-color);
+  padding: 1.5rem;
+  border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  text-align: left;
+}
+
+.event-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 20px var(--shadow-color);
+}
+
+.event-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+  color: var(--primary-color);
+}
+
+.event-card p {
+  color: var(--text-secondary-color);
+  margin-bottom: 1rem;
+}
+/* New Sections Styling */
+.how-it-works,
+.features {
+  padding: 3rem 0;
+  border-top: 1px solid #eee;
+  margin-top: 3rem;
+}
+
+.how-it-works h2,
+.features h2 {
+  font-size: 2rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.steps,
+.feature-cards {
+  display: flex;
+  justify-content: space-around;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.step,
+.feature-card {
+  flex-basis: 30%;
+  text-align: center;
+  padding: 1.5rem;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+}
+
+.step h3,
+.feature-card h3 {
+  font-size: 1.25rem;
+  margin-bottom: 0.5rem;
+}

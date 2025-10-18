@@ -1,8 +1,20 @@
 import express from "express";
-import { registerUser, loginUser } from "../controllers/auth.controller.js";
+import {
+  registerUser,
+  loginUser,
+  getMe,
+} from "../controllers/auth.controller.js";
 import { check } from "express-validator";
+import { protect } from "../middleware/auth.middleware.js";
 
 const router = express.Router();
+
+/**
+ * @route   GET /api/auth/me
+ * @desc    Get current user's profile
+ * @access  Private
+ */
+router.get("/me", protect, getMe);
 
 /**
  * @route   GET /api/auth/register

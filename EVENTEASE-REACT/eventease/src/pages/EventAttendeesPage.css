@@ -1,0 +1,30 @@
+/* EventAttendeesPage Styling */
+.attendees-page {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 2.5rem;
+  background-color: var(--white-color);
+  border-radius: 8px;
+  box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.attendees-page h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.attendees-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.attendees-table th,
+.attendees-table td {
+  padding: 1rem;
+  text-align: left;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.attendees-table th {
+  background-color: var(--light-bg-color);
+}

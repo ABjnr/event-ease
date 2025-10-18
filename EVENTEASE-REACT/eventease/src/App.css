@@ -1,0 +1,10 @@
+/* General App Styling */
+.App {
+  text-align: center;
+}
+
+.container {
+  width: 100%;
+  margin: 0;
+  padding: 2rem;
+}

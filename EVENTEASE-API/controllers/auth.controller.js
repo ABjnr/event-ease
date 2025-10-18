@@ -90,25 +90,32 @@ export const loginUser = async (req, res) => {
       return res.status(400).json({ msg: "Invalid credentials" });
     }
 
-    // Create session
-    req.session.user = {
+    res.json({
       _id: user._id,
       name: user.name,
       email: user.email,
       role: user.role,
-    };
-
-    // res.json({
-    //   _id: user._id,
-    //   name: user.name,
-    //   email: user.email,
-    //   role: user.role,
-    //   token: generateToken(user._id),
-    // });
-    res.redirect("/dashboard");
+      token: generateToken(user._id),
+    });
   } catch (err) {
     console.error(err.message);
     res.status(500).send("Server error");
+  }
+};
+
+/**
+ * @route   GET /api/auth/me
+ * @desc    Get the current logged-in user's profile.
+ * @access  Private
+ */
+export const getMe = async (req, res) => {
+  try {
+    // req.user is attached by the 'protect' middleware
+    const user = await User.findById(req.user._id).select("-password");
+    res.json(user);
+  } catch (error) {
+    console.error(error.message);
+    res.status(500).send("Server Error");
   }
 };
 

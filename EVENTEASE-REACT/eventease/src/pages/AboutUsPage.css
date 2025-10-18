@@ -1,0 +1,55 @@
+.about-us-page {
+  max-width: 900px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.about-us-header {
+  text-align: center;
+  margin-bottom: 2rem;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1.5rem;
+}
+
+.about-us-header h1 {
+  font-size: 2.5rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.about-us-header p {
+  font-size: 1.2rem;
+  color: #666;
+}
+
+.about-us-content .about-section {
+  margin-bottom: 2rem;
+}
+
+.about-us-content h2 {
+  font-size: 1.8rem;
+  color: #444;
+  margin-bottom: 1rem;
+  border-bottom: 2px solid #007bff;
+  padding-bottom: 0.5rem;
+  display: inline-block;
+}
+
+.about-us-content p,
+.about-us-content ul {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  color: #555;
+}
+
+.about-us-content ul {
+  list-style-position: inside;
+  padding-left: 0;
+}
+
+.about-us-content li {
+  margin-bottom: 0.5rem;
+}
