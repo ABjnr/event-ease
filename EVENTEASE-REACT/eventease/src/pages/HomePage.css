@@ -82,3 +82,17 @@
   font-size: 1.25rem;
   margin-bottom: 0.5rem;
 }
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+  .events-grid,
+  .steps,
+  .feature-cards {
+    grid-template-columns: 1fr;
+  }
+
+  .how-it-works,
+  .features {
+    padding: 2rem 1rem;
+  }
+}

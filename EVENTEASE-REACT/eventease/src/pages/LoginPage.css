@@ -70,3 +70,10 @@
   margin-bottom: 15px;
   text-align: center;
 }
+
+@media screen and (max-width: 768px) {
+  .login-form-container {
+    width: 90%;
+    padding: 1.5rem;
+  }
+}

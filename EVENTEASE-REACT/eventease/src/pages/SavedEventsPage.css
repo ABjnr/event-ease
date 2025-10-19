@@ -39,3 +39,10 @@
   color: var(--text-secondary-color);
   margin-bottom: 1rem;
 }
+
+/* Responsive Styles */
+@media screen and (max-width: 768px) {
+  .events-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -55,6 +55,12 @@
 }
 
 .edit-event-button:hover {
-  background-color: var(--primary-hover-color);
-  transform: translateY(-2px);
+  background-color: #0056b3;
+}
+
+@media screen and (max-width: 768px) {
+  .edit-event-page form {
+    width: 90%;
+    padding: 1.5rem;
+  }
 }

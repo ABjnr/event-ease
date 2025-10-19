@@ -58,3 +58,10 @@
   background-color: var(--primary-hover-color);
   transform: translateY(-2px);
 }
+
+@media screen and (max-width: 768px) {
+  .create-event-page form {
+    width: 90%;
+    padding: 1.5rem;
+  }
+}
