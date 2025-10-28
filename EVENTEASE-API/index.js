@@ -20,7 +20,7 @@ if (!process.env.SESSION_SECRET) {
   process.exit(1);
 }
 
-// Establish connection to the MongoDB database
+// Connect to MongoDB
 connectDB();
 
 const app = express();
@@ -63,7 +63,6 @@ app.use("/api/auth", authRoutes);
 app.use("/api/events", eventRoutes);
 app.use("/api/registrations", registrationRoutes);
 app.use("/api/notifications", notificationRoutes);
-app.use("/api/users", userRoutes);
 
 // --- Page Routes ---
 

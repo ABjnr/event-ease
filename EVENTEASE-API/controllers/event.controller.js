@@ -50,7 +50,7 @@ export const createEvent = async (req, res) => {
  */
 export const getEvents = async (req, res) => {
   try {
-    const events = await Event.find({}).populate("organizer", "name email");
+    const events = await Event.find({}).populate("organizer", "name email _id");
     res.json(events);
   } catch (error) {
     console.error(error.message);
@@ -69,7 +69,7 @@ export const getEventById = async (req, res) => {
   try {
     const event = await Event.findById(req.params.id).populate(
       "organizer",
-      "name email"
+      "name email _id"
     );
 
     if (event) {
@@ -99,7 +99,11 @@ export const updateEvent = async (req, res) => {
     const event = await Event.findById(req.params.id);
 
     if (event) {
-      if (event.organizer.toString() !== req.user._id.toString()) {
+      // Allow if user is an Admin OR if the user is the event organizer
+      if (
+        req.user.role !== "Admin" &&
+        event.organizer.toString() !== req.user._id.toString()
+      ) {
         return res.status(401).json({ message: "User not authorized" });
       }
 
@@ -133,9 +137,13 @@ export const deleteEvent = async (req, res) => {
     const event = await Event.findById(req.params.id);
 
     if (event) {
-      // if (event.organizer.toString() !== req.user._id.toString()) {
-      //   return res.status(401).json({ message: "User not authorized" });
-      // }
+      // Allow if user is an Admin OR if the user is the event organizer
+      if (
+        req.user.role !== "Admin" &&
+        event.organizer.toString() !== req.user._id.toString()
+      ) {
+        return res.status(401).json({ message: "User not authorized" });
+      }
 
       await Event.deleteOne({ _id: req.params.id });
       res.json({ message: "Event removed" });

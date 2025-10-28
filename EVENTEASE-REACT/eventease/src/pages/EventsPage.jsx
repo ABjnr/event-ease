@@ -34,7 +34,6 @@ const EventsPage = () => {
     try {
       const res = await api.post(`/events/${eventId}/rsvp`);
       alert("RSVP successful!");
-      console.log("RSVP response:", res.data);
     } catch (err) {
       alert(
         "RSVP failed: " +
@@ -184,7 +183,8 @@ const EventsPage = () => {
                 <strong>Location:</strong> {event.location}
               </p>
               <p>
-                <strong>Date:</strong> {new Date(event.dateTime).toLocaleString()}
+                <strong>Date:</strong>{" "}
+                {new Date(event.dateTime).toLocaleString()}
               </p>
               <p>
                 <strong>Organizer:</strong>{" "}
@@ -193,28 +193,56 @@ const EventsPage = () => {
               <div className="event-actions">
                 {user && user.role === "Attendee" && (
                   <>
-                    <button onClick={() => handleRsvp(event._id)} className="btn btn-primary">RSVP</button>
+                    <button
+                      onClick={() => handleRsvp(event._id)}
+                      className="btn btn-primary"
+                    >
+                      RSVP
+                    </button>
                     {user.savedEvents?.includes(event._id) ? (
-                      <button onClick={() => handleUnsave(event._id)} className="btn btn-secondary">
+                      <button
+                        onClick={() => handleUnsave(event._id)}
+                        className="btn btn-secondary"
+                      >
                         Unsave
                       </button>
                     ) : (
-                      <button onClick={() => handleSave(event._id)} className="btn btn-secondary">
+                      <button
+                        onClick={() => handleSave(event._id)}
+                        className="btn btn-secondary"
+                      >
                         Save
                       </button>
                     )}
                   </>
                 )}
-                {user && event.organizer && user._id === event.organizer._id && (
+                {(user?.role === "Admin" ||
+                  (user &&
+                    event.organizer &&
+                    user._id === event.organizer._id)) && (
                   <>
-                    <button onClick={() => handleEdit(event._id)} className="btn btn-primary">Edit</button>
-                    <button onClick={() => handleDelete(event._id)} className="btn btn-danger">
+                    <button
+                      onClick={() => handleEdit(event._id)}
+                      className="btn btn-primary"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDelete(event._id)}
+                      className="btn btn-danger"
+                    >
                       Delete
                     </button>
-                    <button onClick={() => handleNotify(event._id)} className="btn btn-secondary">
+                    <button
+                      onClick={() => handleNotify(event._id)}
+                      className="btn btn-secondary"
+                    >
                       Notify
                     </button>
-                    <button onClick={() => handleViewAttendees(event._id)} className="btn btn-secondary">
+                    <button
+                      onClick={() => handleViewAttendees(event._id)}
+                      className="btn btn-secondary"
+                    >
                       Attendees
                     </button>
                   </>

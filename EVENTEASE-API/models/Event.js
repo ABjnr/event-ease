@@ -31,7 +31,7 @@ const eventSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    ticketPrice: {
+    price: {
       type: Number,
       default: 0,
     },
@@ -41,8 +41,8 @@ const eventSchema = new mongoose.Schema(
       default: "active",
     },
   },
-  { 
-    timestamps: true 
+  {
+    timestamps: true,
   }
 );
 

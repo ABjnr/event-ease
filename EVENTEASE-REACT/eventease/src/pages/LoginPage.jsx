@@ -22,9 +22,8 @@ const LoginPage = () => {
     e.preventDefault();
     try {
       const res = await api.post("/auth/login", formData);
-      console.log("User logged in successfully:", res.data);
       login(res.data, res.data.token);
-      navigate("/events");
+      navigate("/");
     } catch (err) {
       setError(err.response?.data?.msg || "Username or password is incorrect");
       console.error("Failed to login", err);

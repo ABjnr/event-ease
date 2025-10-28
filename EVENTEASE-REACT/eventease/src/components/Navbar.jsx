@@ -7,6 +7,9 @@ const Navbar = () => {
   const { user, isAuthenticated } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
 
+  const getLinkClass = ({ isActive }) =>
+    isActive ? "navbar-link active-link" : "navbar-link";
+
   return (
     <nav className="navbar">
       <div className="navbar-container">
@@ -15,14 +18,14 @@ const Navbar = () => {
         </NavLink>
 
         <div className="menu-icon" onClick={() => setMenuOpen(!menuOpen)}>
-          &#9776; {/* Hamburger Icon */}
+          &#9776;
         </div>
 
         <ul className={menuOpen ? "navbar-menu active" : "navbar-menu"}>
           <li className="navbar-item">
             <NavLink
               to="/"
-              className="navbar-link"
+              className={getLinkClass}
               onClick={() => setMenuOpen(false)}
             >
               Home
@@ -31,7 +34,7 @@ const Navbar = () => {
           <li className="navbar-item">
             <NavLink
               to="/about"
-              className="navbar-link"
+              className={getLinkClass}
               onClick={() => setMenuOpen(false)}
             >
               About Us
@@ -42,7 +45,7 @@ const Navbar = () => {
               <li className="navbar-item">
                 <NavLink
                   to="/events"
-                  className="navbar-link"
+                  className={getLinkClass}
                   onClick={() => setMenuOpen(false)}
                 >
                   Events
@@ -51,7 +54,7 @@ const Navbar = () => {
               <li className="navbar-item">
                 <NavLink
                   to="/notifications"
-                  className="navbar-link"
+                  className={getLinkClass}
                   onClick={() => setMenuOpen(false)}
                 >
                   Notifications
@@ -60,15 +63,19 @@ const Navbar = () => {
               <li className="navbar-item">
                 <NavLink
                   to="/saved-events"
-                  className="navbar-link"
+                  className={getLinkClass}
                   onClick={() => setMenuOpen(false)}
                 >
                   Saved Events
                 </NavLink>
               </li>
-              {user?.role === "Organizer" && (
+              {(user?.role === "Organizer" || user?.role === "Admin") && (
                 <li className="navbar-item">
-                  <NavLink to="/create-event" className={getLinkClass}>
+                  <NavLink
+                    to="/create-event"
+                    className={getLinkClass}
+                    onClick={() => setMenuOpen(false)}
+                  >
                     Create Event
                   </NavLink>
                 </li>
@@ -77,7 +84,7 @@ const Navbar = () => {
                 <li className="navbar-item">
                   <NavLink
                     to="/admin"
-                    className="navbar-link"
+                    className={getLinkClass}
                     onClick={() => setMenuOpen(false)}
                   >
                     Admin Dashboard
@@ -87,7 +94,7 @@ const Navbar = () => {
               <li className="navbar-item">
                 <NavLink
                   to="/profile"
-                  className="navbar-link"
+                  className={getLinkClass}
                   onClick={() => setMenuOpen(false)}
                 >
                   Profile

@@ -24,9 +24,8 @@ const RegisterPage = () => {
     e.preventDefault();
     try {
       const res = await api.post("/auth/register", formData);
-      console.log("User registered successfully:", res.data);
       login(res.data, res.data.token);
-      navigate("/events");
+      navigate("/");
     } catch (err) {
       setError(
         err.response?.data?.msg || "Failed to register. Please try again."

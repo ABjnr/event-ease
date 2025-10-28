@@ -25,7 +25,7 @@ const EditEventPage = () => {
           .slice(0, 16);
         setFormData({ ...res.data, dateTime: formattedDateTime });
       } catch (err) {
-        console.error("Error fetching event data:", err);
+        console.error("Failed to fetch event", err);
       }
     };
     fetchEvent();
@@ -34,20 +34,17 @@ const EditEventPage = () => {
   const { title, description, dateTime, location, category, ticketPrice } =
     formData;
 
-  const onChange = (e) =>
+  const handleChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });
 
   const onSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await api.put(`/events/${id}`, formData);
-      console.log("Event updated successfully:", res.data);
+      await api.put(`/events/${id}`, formData);
+      alert("Event updated successfully!");
       navigate("/events");
     } catch (err) {
-      console.error(
-        "Event update error:",
-        err.response ? err.response.data : err.message
-      );
+      console.error("Failed to update event", err);
     }
   };
 
@@ -61,7 +58,7 @@ const EditEventPage = () => {
             type="text"
             name="title"
             value={title}
-            onChange={onChange}
+            onChange={handleChange}
             required
           />
         </div>
@@ -70,7 +67,7 @@ const EditEventPage = () => {
           <textarea
             name="description"
             value={description}
-            onChange={onChange}
+            onChange={handleChange}
             required
           ></textarea>
         </div>
@@ -80,7 +77,7 @@ const EditEventPage = () => {
             type="text"
             name="location"
             value={location}
-            onChange={onChange}
+            onChange={handleChange}
             required
           />
         </div>
@@ -90,7 +87,7 @@ const EditEventPage = () => {
             type="datetime-local"
             name="dateTime"
             value={dateTime}
-            onChange={onChange}
+            onChange={handleChange}
             required
           />
         </div>
@@ -100,7 +97,7 @@ const EditEventPage = () => {
             type="text"
             name="category"
             value={category}
-            onChange={onChange}
+            onChange={handleChange}
             required
           />
         </div>

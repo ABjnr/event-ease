@@ -2,8 +2,6 @@ import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 import "dotenv/config";
 
-
-
 // @desc    Check if user is an admin
 // @route   GET /api/auth/admin
 // @access  Private
@@ -49,17 +47,33 @@ export const protect = async (req, res, next) => {
   }
 };
 
-// @desc    Check if user is an organizer
-// @route   GET /api/auth/organizer
-// @access  Private
 /**
- * Middleware to check if the user has an 'Organizer' or 'Admin' role.
- * Proceeds to the next middleware if the user is an organizer or admin, otherwise sends a 401 Unauthorized response.
+ * Middleware to check if the user has an 'Organizer' role.
+ * Proceeds to the next middleware if the user is an organizer, otherwise sends a 401 Unauthorized response.
  */
 export const organizer = (req, res, next) => {
-  if (req.user && (req.user.role === "Organizer" || req.user.role === "Admin")) {
+  if (req.user && req.user.role === "Organizer") {
     next();
   } else {
-    res.status(401).json({ message: "Not authorized, you are not an organizer" });
+    res
+      .status(401)
+      .json({ message: "Not authorized, you are not an organizer" });
+  }
+};
+
+/**
+ * Middleware to check if the user has an 'Organizer' or 'Admin' role.
+ * Proceeds if the user role is one of the two, otherwise sends a 401 Unauthorized response.
+ */
+export const isOrganizerOrAdmin = (req, res, next) => {
+  if (
+    req.user &&
+    (req.user.role === "Organizer" || req.user.role === "Admin")
+  ) {
+    next();
+  } else {
+    res
+      .status(401)
+      .json({ message: "Not authorized as an Organizer or Admin" });
   }
 };

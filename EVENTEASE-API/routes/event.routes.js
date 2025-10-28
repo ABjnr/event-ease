@@ -6,12 +6,12 @@ import {
   updateEvent,
   deleteEvent,
   rsvpEvent,
-  notifyAttendees,
   saveEvent,
   unsaveEvent,
+  notifyAttendees,
 } from "../controllers/event.controller.js";
 import { getEventRegistrations } from "../controllers/registration.controller.js";
-import { protect, organizer } from "../middleware/auth.middleware.js";
+import { protect, isOrganizerOrAdmin } from "../middleware/auth.middleware.js";
 import { check } from "express-validator";
 
 const router = express.Router();
@@ -30,7 +30,7 @@ router
   .get(getEvents)
   .post(
     protect,
-    organizer,
+    isOrganizerOrAdmin,
     [
       check("title", "Title is required").not().isEmpty(),
       check("description", "Description is required").not().isEmpty(),
@@ -57,8 +57,8 @@ router
 router
   .route("/:id")
   .get(getEventById)
-  .put(protect, organizer, updateEvent)
-  .delete(protect, organizer, deleteEvent);
+  .put(protect, updateEvent)
+  .delete(protect, deleteEvent);
 
 /**
  * @route   POST /api/events/:id/rsvp
@@ -67,22 +67,12 @@ router
  */
 router.route("/:id/rsvp").post(protect, rsvpEvent);
 
-router
-  .route("/:id/notify")
-  .post(
-    protect,
-    organizer,
-    [check("message", "Message is required").not().isEmpty()],
-    notifyAttendees
-  );
+router.route("/:id/notify").post(protect, isOrganizerOrAdmin, notifyAttendees);
 
 router
   .route("/:id/registrations")
-  .get(protect, organizer, getEventRegistrations);
+  .get(protect, isOrganizerOrAdmin, getEventRegistrations);
 
-router
-  .route("/:id/save")
-  .post(protect, saveEvent)
-  .delete(protect, unsaveEvent);
+router.route("/:id/save").post(protect, saveEvent).delete(protect, unsaveEvent);
 
 export default router;

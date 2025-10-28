@@ -23,8 +23,8 @@ const CreateEventPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await api.post("/events", formData);
-      console.log("Event created successfully:", res.data);
+      await api.post("/events", formData);
+      alert("Event created successfully!");
       navigate("/events");
     } catch (err) {
       console.error("Failed to create event", err);

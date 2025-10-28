@@ -11,10 +11,9 @@ const NotifyAttendeesPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const res = await api.post(`/events/${id}/notify`, { message });
-      console.log("Notification sent:", res.data);
-      alert("Notifications sent successfully!");
-      navigate("/events");
+      await api.post(`/events/${id}/notify`, { message });
+      alert("Notification sent successfully!");
+      navigate(`/events`);
     } catch (err) {
       alert(
         "Failed to send notifications: " +
